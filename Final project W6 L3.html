@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="src/styles.css" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Slab:wght@500&family=Oswald:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>My Weather App</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card border-dark mb-3" style="max-width: 36rem">
+        <div class="title">
+          <div class="card border-dark mb-3" style="max-width: 34rem">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="src/natureOnScreen.png" width="180px" alt="..." />
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h1 class="mainTitle">My Weather App</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form class="row g-3" id="input-form">
+            <div class="col-6">
+              <input
+                type="search"
+                autofocus="on"
+                autocomplete="off"
+                class="form-control"
+                id="input-city"
+                placeholder="Search city..."
+              />
+            </div>
+            <div class="col-3">
+              <input type="submit" value="Search" class="btn btn-dark mb-3" />
+            </div>
+            <div class="col-3">
+              <button
+                class="btn btn-outline-dark mb-3"
+                id="current-location-button"
+              >
+                📍
+              </button>
+            </div>
+          </form>
+          <div class="row">
+            <div class="col-6">
+              <div
+                class="card text-white bg-dark mb-3"
+                style="max-width: 300px"
+              >
+                <div class="card-body">
+                  <h5 class="card-city" id="current-city"></h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div
+                class="card text-dark bg-light mb-3"
+                style="max-width: 300px"
+              >
+                <div class="card-body">
+                  <h5 class="card-week">Weekly forecast</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="card border-dark" style="max-width: 285px">
+                <img src="src/sunlight.png" class="card-img-top" alt="..." />
+                <div class="card-body">
+                  <span id="weather-description"> </span>
+                  <br />
+                  <span class="card-temperature" id="temperature-number"></span
+                  ><span id="celsius"> °C</span>
+                  <span id="fahrenheit"> °F</span>
+                </div>
+                <table class="table table-bordered border-dark">
+                  <thead>
+                    <th class="time" scope="row" id="todays-day">Sunday</th>
+                    <th class="time" scope="row" id="current-time">2:30 PM</th>
+                  </thead>
+                </table>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    ☀ Day: <span id="max-temp"> </span>°
+                  </li>
+                  <li class="list-group-item">
+                    🌑 Night: <span id="min-temp"> </span>°
+                  </li>
+                  <li class="list-group-item">
+                    💨 Wind: <span id="wind"> </span>
+                  </li>
+                  <li class="list-group-item">
+                    💧 Humidity: <span id="humidity"> </span>%
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-6">
+              <table
+                class="table table-bordered border-dark"
+                style="max-width: 300px"
+              >
+                <tbody class="table align-middle">
+                  <tr>
+                    <th scope="row">
+                      <img src="src/Black sun.png" alt="" class="icon" />
+                    </th>
+                    <td>
+                      <strong>Sat 13</strong> <br />
+                      ☀70° 🌑50°
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <img src="src/Black cloudy.png" alt="" class="icon" />
+                    </th>
+                    <td>
+                      <strong>Sun 14</strong> <br />
+                      ☀65° 🌑55°
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <img src="src/Black rain.png" alt="" class="icon" />
+                    </th>
+                    <td>
+                      <strong>Mon 15</strong> <br />
+                      ☀50° 🌑40°
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <img src="src/Black sun.png" alt="" class="icon" />
+                    </th>
+                    <td>
+                      <strong>Tue 16</strong> <br />
+                      ☀73° 🌑60°
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <img src="src/Black storm.png" alt="" class="icon" />
+                    </th>
+                    <td>
+                      <strong>Wed 17</strong> <br />
+                      ☀55° 🌑40°
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let now = new Date();
+
+      let days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      let dayOfTheWeek = days[now.getDay()];
+
+      let todaysDay = document.querySelector("#todays-day");
+
+      todaysDay.innerHTML = `${dayOfTheWeek}`;
+
+      let hour = now.getHours();
+      if (hour < 10) {
+        hour = `0${hour}`;
+      }
+      let minutes = now.getMinutes();
+      if (minutes < 10) {
+        minutes = `0${minutes}`;
+      }
+
+      let exactTime = document.querySelector("#current-time");
+      exactTime.innerHTML = `${hour}:${minutes}`;
+
+      function displayWeatherCondition(response) {
+        document.querySelector("#current-city").innerHTML = response.data.name;
+        console.log(response);
+
+        document.querySelector("#temperature-number").innerHTML = Math.round(
+          response.data.main.temp
+        );
+        document.querySelector("#weather-description").innerHTML =
+          response.data.weather[0].main;
+        document.querySelector("#max-temp").innerHTML = Math.round(
+          response.data.main.temp_max
+        );
+        document.querySelector("#min-temp").innerHTML = Math.round(
+          response.data.main.temp_min
+        );
+        document.querySelector("#humidity").innerHTML =
+          response.data.main.humidity;
+        document.querySelector("#wind").innerHTML = Math.round(
+          response.data.wind.speed
+        );
+      }
+      function searchCity(city) {
+        let apiKey = "c330d6d567e845b62d32598b378046e4";
+        let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric`;
+        axios.get(`${apiUrl}&appid=${apiKey}`).then(displayWeatherCondition);
+      }
+
+      //2. The search function runs...
+      function search(event) {
+        event.preventDefault();
+        let city = document.querySelector("#input-city").value;
+        searchCity(city);
+      }
+
+      //1. the program gets the info from input-form and goes to the Search function.
+      let form = document.querySelector("#input-form");
+      form.addEventListener("submit", search);
+
+      function showPosition(position) {
+        let apiKey = "c330d6d567e845b62d32598b378046e4";
+        let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric`;
+
+        axios.get(`${apiUrl}&appid=${apiKey}`).then(displayWeatherCondition);
+      }
+
+      function getCurrentPosition() {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      }
+
+      let button = document.querySelector("button");
+      button.addEventListener("click", getCurrentPosition);
+
+      searchCity("New York");
+    </script>
+  </body>
+</html>
